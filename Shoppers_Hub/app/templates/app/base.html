@@ -75,7 +75,7 @@
               </ul>
             </li>
             <li class="nav-item mx-2">
-             <a href="{% url 'showcart' %}" class="nav-link text-white"><span class="badge bg-danger">4</span> Cart </a>
+             <a href="{% url 'showcart' %}" class="nav-link text-white"><span class="badge bg-danger">{{totalitem}}</span> Cart </a>
             </li>
           {% else %}
             <li class="nav-item mx-2">
@@ -93,6 +93,7 @@
     {% block banner_slider %} {% endblock banner_slider %}
     {% block livesale %} {% endblock livesale %}
     {% block main-content %} {% endblock main-content %}
+    {% block payment-gateway %}{% endblock payment-gateway %}
 
     <!-- Start Footer -->
     <footer class="container-fluid bg-dark text-center p-2 mt-5">
