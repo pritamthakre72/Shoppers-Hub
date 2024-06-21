@@ -152,7 +152,7 @@ def orders(request):
 def mobile(request, data=None):
 	if data == None:
 		mobiles = Product.objects.filter(category='M')
-	elif data == 'Realme' or data == 'Samsung':
+	elif data == 'Android' or data == 'iPhone':
 		mobiles = Product.objects.filter(category='M').filter(brand=data)
 	elif data == 'below':
 		mobiles = Product.objects.filter(category='M').filter(discounted_price__lt=10000)
