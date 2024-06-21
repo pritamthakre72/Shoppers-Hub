@@ -1,0 +1,55 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Search Results{% endblock title %}
+
+{% block main-content %}
+<div class="container mt-5">
+    {% if query %}
+        {% if query|length < 3 %}
+            <div class="alert alert-warning" role="alert">
+                Please enter at least 3 characters to perform a search.
+            </div>
+        {% else %}
+            <h4>Search Results for "{{ query }}"</h4>
+            <div class="m-3">
+                {% if products %}
+                    {% if products.count == 0 %}
+                        <div class="alert alert-warning" role="alert">
+                            No products found for the query "{{ query }}".
+                        </div>
+                        <div class="alert alert-success" role="alert">
+                            Suggestions:<br>
+                            <ul>
+                                <li>Make sure that all words are spelled correctly.</li>
+                                <li>Try different keywords.</li>
+                                <li>Try more general keywords.</li>
+                                <li>Try fewer keywords.</li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <div class="owl-carousel" id="slider11">
+                            {% for product in products %}
+                            <a href="{% url 'product-detail' product.id %}" class="btn">
+                                <div class="item">
+                                    <img src="{{ product.product_image.url }}" alt="" height="200px">
+                                    <span class="fw-bold">{{ product.title }}</span><br>
+                                    <span class="fs-5">Rs. {{ product.discounted_price }}</span>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-danger" role="alert">
+                        No products found for the query "{{ query }}".
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            Please enter a query to search.
+        </div>
+    {% endif %}
+</div>
+{% endblock main-content %}

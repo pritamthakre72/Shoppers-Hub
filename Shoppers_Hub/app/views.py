@@ -23,8 +23,33 @@ class ProductView(View):
 		content = {'topwears':topwears, 'bottomwears':bottomwears, 'mobiles':mobiles, 'laptop':laptop, 'totalitem':totalitem}
 		return render(request, 'app/home.html', content)
 
-# def product_detail(request):
-#  return render(request, 'app/productdetail.html')
+def search(request):
+    totalitem = 0
+    query = request.GET.get('query')
+    if query:
+        if len(query) > 78:
+            products = []
+        else:
+            products = Product.objects.filter(
+                Q(title__icontains=query) | 
+                Q(description__icontains=query) |
+                Q(brand__icontains=query) |
+                Q(category__icontains=query)
+            )
+    else:
+        products = Product.objects.none()
+
+    # Check if there are no products found or if the query is empty
+    if not query or not products:
+        messages.error(request, "No products found or please enter a query to search.")
+    
+    # Check if the user is authenticated
+    if request.user.is_authenticated:
+        totalitem = Cart.objects.filter(user=request.user).count()
+    
+    params = {'products': products, 'query': query, 'totalitem': totalitem}
+    return render(request, 'app/search.html', params)
+
 
 class ProductDetails(View):
 	def get(self, request, pk):
@@ -249,3 +274,4 @@ class ProfileView(View):
 			reg.save()
 			messages.success(request, 'Congratulations !! Profile Updated Successfully')
 		return render(request, 'app/profile.html', {'form':form, 'active': 'btn-primary'})   
+	
