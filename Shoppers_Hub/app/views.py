@@ -150,6 +150,7 @@ def orders(request):
 #  return render(request, 'app/passwordchange.html')
 
 def mobile(request, data=None):
+	totalitem = 0
 	if data == None:
 		mobiles = Product.objects.filter(category='M')
 	elif data == 'Android' or data == 'iPhone':
@@ -158,13 +159,23 @@ def mobile(request, data=None):
 		mobiles = Product.objects.filter(category='M').filter(discounted_price__lt=10000)
 	elif data == 'above':
 		mobiles = Product.objects.filter(category='M').filter(discounted_price__gt=10000)
-	return render(request, 'app/mobile.html', {'mobiles': mobiles})
+	if request.user.is_authenticated:
+			totalitem = len (Cart.objects.filter(user=request.user))
+	return render(request, 'app/mobile.html', {'mobiles': mobiles, 'totalitem':totalitem})
 
-# def login(request):
-#  return render(request, 'app/login.html')
-
-# def customerregistration(request):
-#  return render(request, 'app/customerregistration.html')
+def topwears(request, data=None):
+	totalitem = 0
+	if data == None:
+		topwears = Product.objects.filter(category='TW')
+	elif data == 'Men' or data == 'Women':
+		topwears = Product.objects.filter(category='TW').filter(brand=data)
+	elif data == 'below':
+		topwears = Product.objects.filter(category='TW').filter(discounted_price__lt=400)
+	elif data == 'above':
+		topwears = Product.objects.filter(category='TW').filter(discounted_price__gt=400)
+	if request.user.is_authenticated:
+			totalitem = len (Cart.objects.filter(user=request.user))
+	return render(request, 'app/topwears.html', {'topwears': topwears, 'totalitem':totalitem})
 
 class CustomerRegistrationView(View):
 	def get(self, request):

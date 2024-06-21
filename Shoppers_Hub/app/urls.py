@@ -21,10 +21,10 @@ urlpatterns = [
     path('profile/', views.ProfileView.as_view() , name='profile'),
     path('address/', views.address, name='address'),
     path('orders/', views.orders, name='orders'),
-    # path('changepassword/', views.change_password, name='changepassword'),
     path('mobile/', views.mobile, name='mobile'),
     path('mobile/<slug:data>', views.mobile, name='mobiledata'),
-    # path('login/', views.login, name='login'),
+    path('topwears/', views.topwears, name='topwears'),
+    path('topwears/<slug:data>', views.topwears, name='topweardata'),
 
     # Authentication URLs
     path('accounts/login/', auth_views.LoginView.as_view(template_name='app/login.html', authentication_form =LoginForm), name='login'),
