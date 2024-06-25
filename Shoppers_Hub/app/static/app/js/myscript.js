@@ -101,5 +101,3 @@ $('.remove-cart').click(function () {
         }
     })  
 })
-
-
